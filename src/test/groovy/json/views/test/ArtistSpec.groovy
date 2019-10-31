@@ -11,9 +11,12 @@ class ArtistSpec extends Specification implements DomainUnitTest<Artist> {
 
         when:
         def artist = new Artist(name: "name")
-        artist.save()
+        def saveResult = artist.save()
 
         then:
+        saveResult == artist
+
+        and:
         Artist.count() == oldCount + 1
     }
 
@@ -23,9 +26,12 @@ class ArtistSpec extends Specification implements DomainUnitTest<Artist> {
 
         when:
         def artist = new Artist()
-        artist.save()
+        def saveResult = artist.save()
 
         then:
+        saveResult == null
+
+        and:
         Artist.count() == oldCount
 
         and:

@@ -1,0 +1,9 @@
+import json.views.test.Album
+
+model {
+	Album album
+}
+
+json {
+	title album.title
+}

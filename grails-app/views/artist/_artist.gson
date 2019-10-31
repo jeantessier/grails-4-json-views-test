@@ -4,4 +4,7 @@ model {
 	Artist artist
 }
 
-json g.render(artist, [resolveTemplate: false])
+json {
+	name artist.name
+	albums tmpl.album(artist.albums ?: [])
+}
