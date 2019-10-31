@@ -2,19 +2,28 @@ package json.views.test
 
 class BootStrap {
 
+    static final artists = [
+        "P!nk": [
+            "You Can't Take Me Home",
+            "Funhouse",
+            "Beautiful Trauma",
+        ],
+        "Prince": [
+            "Purple Rain",
+        ],
+        "Avril Lavigne": [],
+    ]
+
     def init = { servletContext ->
-        new Artist(name: "P!nk")
-            .addToAlbums(title: "You Can't Take Me Home")
-            .addToAlbums(title: "Funhouse")
-            .addToAlbums(title: "Beautiful Trauma")
-            .save()
-
-        new Artist(name: "Prince")
-            .addToAlbums(title: "Purple Rain")
-            .save()
-
-        new Artist(name: "Avril Lavigne")
-            .save()
+        Artist.withTransaction {
+            artists.each { name, albums ->
+                if (!Artist.findByName(name)) {
+                    def artist = new Artist(name: name)
+                    albums.each { artist.addToAlbums(title: it) }
+                    artist.save()
+                }
+            }
+        }
     }
 
 }
