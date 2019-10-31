@@ -1,0 +1,7 @@
+import json.views.test.Artist
+
+model {
+	Artist artist
+}
+
+json g.render(artist, [resolveTemplate: false])
