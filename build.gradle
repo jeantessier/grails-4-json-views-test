@@ -5,7 +5,7 @@ buildscript {
     dependencies {
         classpath "org.grails:grails-gradle-plugin:$grailsVersion"
         classpath "org.grails.plugins:hibernate5:7.0.0"
-        classpath "org.grails.plugins:views-gradle:2.0.0.BUILD-SNAPSHOT"
+        classpath "org.grails.plugins:views-gradle:2.0.0.RC2"
     }
 }
 
@@ -66,12 +66,19 @@ dependencies {
 }
 
 bootRun {
+    ignoreExitValue true
     jvmArgs(
-        '-Dspring.output.ansi.enabled=always', 
-        '-noverify', 
+        '-Dspring.output.ansi.enabled=always',
+        '-noverify',
         '-XX:TieredStopAtLevel=1',
         '-Xmx1024m')
     sourceResources sourceSets.main
     String springProfilesActive = 'spring.profiles.active'
     systemProperty springProfilesActive, System.getProperty(springProfilesActive)
+}
+
+tasks.withType(GroovyCompile) {
+    configure(groovyOptions) {
+        forkOptions.jvmArgs = ['-Xmx1024m']
+    }
 }
